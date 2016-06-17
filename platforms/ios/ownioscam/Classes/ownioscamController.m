@@ -67,8 +67,8 @@
       
         self.view.userInteractionEnabled = YES;
         
-       // UIPinchGestureRecognizer *pinchRec = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(doPinch:)];
-    //   [self.view addGestureRecognizer:pinchRec];        // Set this VC's view as the overlay view for the UIImagePickerController
+        UIPinchGestureRecognizer *pinchRec = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(doPinch:)];
+      [self.picker.cameraOverlayView addGestureRecognizer:pinchRec];        // Set this VC's view as the overlay view for the UIImagePickerController
       //  [self.view.window addSubview:self.picker.view];
         
       //  CGSize screenBounds = [UIScreen mainScreen].bounds.size;
@@ -79,7 +79,7 @@
       //  CGFloat scale = screenBounds.height / camViewHeight;
         
      //   self.picker.cameraViewTransform = CGAffineTransformMakeTranslation(0, (screenBounds.height - camViewHeight) / 2.0);
-        self.picker.cameraViewTransform = CGAffineTransformScale(self.picker.cameraViewTransform, 1.0, 1.5);
+        self.picker.cameraViewTransform = CGAffineTransformScale(self.picker.cameraViewTransform, 1.5, 1.5);
         [Toolbarproperty setItems:[[NSArray alloc]initWithObjects:Flashproperty,AutoProperty,nil,nil, nil]];
    self.picker.cameraOverlayView = self.view;
       //  CGSize screenSize = [[UIScreen mainScreen] bounds].size;
