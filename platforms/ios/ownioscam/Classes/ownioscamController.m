@@ -16,12 +16,12 @@
 (UIInterfaceOrientation)toInterfaceOrientation
                                          duration:(NSTimeInterval)duration
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Test Message"
-                                                    message:@"This is a sample"
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    [alert show];
+    // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Test Message"
+    //                                                 message:@"This is a sample"
+    //                                                delegate:nil
+    //                                       cancelButtonTitle:@"OK"
+    //                                       otherButtonTitles:nil];
+    // [alert show];
 }
 
 
@@ -35,17 +35,25 @@
         self.picker = [[UIImagePickerController alloc] init];
         
         // Configure the UIImagePickerController instance
+         
         self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         self.picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
         self.picker.cameraDevice = UIImagePickerControllerCameraDeviceRear;
         self.picker.showsCameraControls = NO;
-        self.picker.wantsFullScreenLayout = YES;
+         self.picker.delegate = self;
+        
+        UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+
+        
         
         self.picker.cameraFlashMode = UIImagePickerControllerCameraFlashModeAuto;
+          CGRect screenFrame = CGRectMake(0, 0, 1024, 2049);
+        self.view.frame = screenFrame;
+        self.picker.view.frame = screenFrame;
        // self.picker.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
       //  self.picker.
         // Make us the delegate for the UIImagePickerController
-        self.picker.delegate = self;
+       // self.picker.delegate = self;
       //  self.picker.modalPresentationStyle =UIModalPresentationCustom;
       //  self.picker.modalTransitionStyle = UIDeviceOrientationPortrait;
      //   self.overlay = [[ownioscamController alloc] init @"ownioscam" bundle:nil]
@@ -56,19 +64,30 @@
       //  self.picker.preferredInterfaceOrientationForPresentation = UIDeviceOrientationPortrait;
     
       //  self.picker.preferredInterfaceOrientationForPresentation =
-       CGRect screenFrame = [[UIScreen mainScreen] bounds];
+      // CGRect screenFrame = [[UIScreen mainScreen] bounds];
         
-        self.view.frame = screenFrame;
+      //  self.view.frame = screenFrame;
       //  self.view.window.frame = screenFrame;
-       self.picker.view.frame = screenFrame;
+     //  self.picker.view.frame = screenFrame;
      //   self.picker.view = [UIColor clearColor];
       //  self.view = [UIColor clearColor];
       //  self.picker.view.window.frame = screenFrame;
-      
-        self.view.userInteractionEnabled = YES;
+       if(orientation == UIDeviceOrientationPortrait)
+        {
+        CGSize screenBounds = [UIScreen mainScreen].bounds.size;
         
-        UIPinchGestureRecognizer *pinchRec = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(doPinch:)];
-      [self.picker.cameraOverlayView addGestureRecognizer:pinchRec];        // Set this VC's view as the overlay view for the UIImagePickerController
+        CGFloat cameraAspectRatio = 4.0f/3.0f;
+        
+        CGFloat camViewHeight = screenBounds.width * cameraAspectRatio;
+        CGFloat scale = screenBounds.height / camViewHeight;
+        
+        self.picker.cameraViewTransform = CGAffineTransformMakeTranslation(0, (screenBounds.height - camViewHeight) / 2.0);
+        self.picker.cameraViewTransform = CGAffineTransformScale(self.picker.cameraViewTransform, scale, scale);
+        }
+      //  self.view.userInteractionEnabled = YES;
+        
+      //  UIPinchGestureRecognizer *pinchRec = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(doPinch:)];
+      //[self.picker.cameraOverlayView addGestureRecognizer:pinchRec];        // Set this VC's view as the overlay view for the UIImagePickerController
       //  [self.view.window addSubview:self.picker.view];
         
       //  CGSize screenBounds = [UIScreen mainScreen].bounds.size;
@@ -79,8 +98,8 @@
       //  CGFloat scale = screenBounds.height / camViewHeight;
         
      //   self.picker.cameraViewTransform = CGAffineTransformMakeTranslation(0, (screenBounds.height - camViewHeight) / 2.0);
-        self.picker.cameraViewTransform = CGAffineTransformScale(self.picker.cameraViewTransform, 1.5, 1.5);
-        [Toolbarproperty setItems:[[NSArray alloc]initWithObjects:Flashproperty,AutoProperty,nil,nil, nil]];
+      //  self.picker.cameraViewTransform = CGAffineTransformScale(self.picker.cameraViewTransform, 1.5, 1.5);
+        //[Toolbarproperty setItems:[[NSArray alloc]initWithObjects:Flashproperty,AutoProperty,nil,nil, nil]];
    self.picker.cameraOverlayView = self.view;
       //  CGSize screenSize = [[UIScreen mainScreen] bounds].size;
         //float cameraAspectRatio = 4.0 / 3.0;
